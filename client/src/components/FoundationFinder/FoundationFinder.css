@@ -1,0 +1,119 @@
+.foundation-finder {
+    background-color: var(--gray-color);
+    padding: 80px 0;
+    margin: 60px 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,0.92), rgba(255,255,255,0.85)),;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .finder-content {
+    width: 100%;
+  }
+  
+  .finder-row {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+  
+  .finder-text {
+    flex: 1;
+    padding-right: 20px;
+  }
+  
+  .finder-text .section-title {
+    text-align: left;
+    margin-top: 0;
+  }
+  
+  .finder-text .section-title::after {
+    left: 0;
+    transform: none;
+  }
+  
+  .finder-description {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 25px;
+    color: var(--dark-color);
+  }
+  
+  .finder-benefits {
+    margin: 30px 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  .finder-benefits li {
+    margin-bottom: 12px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .benefit-icon {
+    color: var(--accent-color);
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 18px;
+  }
+  
+  .finder-image {
+    flex: 1;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  
+  .shade-finder-img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+  
+  .finder-image:hover .shade-finder-img {
+    transform: scale(1.03);
+  }
+  
+  .shade-swatches-preview {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    padding: 10px 15px;
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
+  .swatch {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid white;
+  }
+  
+  @media (max-width: 992px) {
+    .finder-row {
+      flex-direction: column;
+    }
+    
+    .finder-text {
+      padding-right: 0;
+    }
+    
+    .finder-text .section-title {
+      text-align: center;
+    }
+    
+    .finder-text .section-title::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }

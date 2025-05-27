@@ -44,16 +44,16 @@ const Account = () => {
   const [isEditingAddress, setIsEditingAddress] = useState(null);
   const [showAddressForm, setShowAddressForm] = useState(false);
   
-  
-  const [orders] = useState([
+  // Order states
+  const [orders, setOrders] = useState([
     {
       id: 'ORDER-5623',
       date: '2023-11-15',
       status: 'Delivered',
       total: 125.97,
       items: [
-        { id: 1, name: 'Foundation', price: 45.99, quantity: 1, image: 'https://via.placeholder.com/80' },
-        { id: 2, name: 'Lipstick', price: 29.99, quantity: 2, image: 'https://via.placeholder.com/80' }
+        { id: 1, name: 'Foundation', price: 45.99, quantity: 1, image: '../images/foundation.jpg' },
+        { id: 2, name: 'Lipstick', price: 29.99, quantity: 2, image: '../images/lipstick.png' }
       ]
     },
     {
@@ -62,18 +62,24 @@ const Account = () => {
       status: 'Processing',
       total: 76.50,
       items: [
-        { id: 3, name: 'Eye Cream', price: 38.50, quantity: 1, image: 'https://via.placeholder.com/80' },
-        { id: 4, name: 'Mascara', price: 19.00, quantity: 2, image: 'https://via.placeholder.com/80' }
+        { id: 3, name: 'Eye Cream', price: 38.50, quantity: 1, image: '../images/eyecare.png' },
+        { id: 4, name: 'Mascara', price: 19.00, quantity: 2, image: '../images/Lengthening Mascara.png' }
       ]
     }
   ]);
   
+  // Modal states for orders
+  const [viewOrderDetails, setViewOrderDetails] = useState(null);
+  const [trackingInfo, setTrackingInfo] = useState(null);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [currentItemToReview, setCurrentItemToReview] = useState(null);
   
-  const [reviews] = useState([
+  // Reviews states
+  const [reviews, setReviews] = useState([
     {
       id: 1,
       productName: 'Moisture Surge Face Cream',
-      productImage: 'https://via.placeholder.com/80',
+      productImage: '../images/dramatically .png',
       rating: 5,
       comment: 'Amazing product! Really helped with my dry skin during winter months.',
       date: '2023-10-28'
@@ -81,12 +87,19 @@ const Account = () => {
     {
       id: 2,
       productName: 'Double Wear Foundation',
-      productImage: 'https://via.placeholder.com/80',
+      productImage: '../images/double wear stay.png',
       rating: 4,
       comment: 'Great coverage and lasts all day. Shade matching was perfect.',
       date: '2023-09-15'
     }
   ]);
+  
+  // Review editing states
+  const [editingReview, setEditingReview] = useState(null);
+  const [reviewFormData, setReviewFormData] = useState({
+    rating: 5,
+    comment: ''
+  });
 
   
   const [formSuccess, setFormSuccess] = useState(null);
@@ -113,8 +126,9 @@ const Account = () => {
     }
   }, [currentUser]);
 
-  
+  console.log(currentUser);
   if (!currentUser) {
+
     return <Navigate to="/" />;
   }
 
@@ -300,6 +314,111 @@ const Account = () => {
     setFormSuccess("Default address updated!");
     
     setTimeout(() => setFormSuccess(null), 3000);
+  };
+
+  // New order handlers
+  const handleTrackOrder = (orderId) => {
+    // In a real app, this would fetch tracking data from an API
+    setTrackingInfo({
+      orderId,
+      status: "In Transit",
+      location: "Local Distribution Center",
+      estimatedDelivery: "2023-12-20",
+      trackingNumber: "TRK" + orderId.substring(6)
+    });
+    setFormSuccess(`Tracking information for order ${orderId} displayed`);
+    setTimeout(() => setFormSuccess(null), 3000);
+  };
+
+  const handleViewOrderDetails = (order) => {
+    setViewOrderDetails(order);
+    setFormSuccess(`Order details for ${order.id} displayed`);
+    setTimeout(() => setFormSuccess(null), 3000);
+  };
+
+  const handleCancelOrder = (orderId) => {
+    if (window.confirm("Are you sure you want to cancel this order?")) {
+      const updatedOrders = orders.map(order => 
+        order.id === orderId 
+          ? { ...order, status: 'Cancelled' } 
+          : order
+      );
+      setOrders(updatedOrders);
+      setFormSuccess(`Order ${orderId} has been cancelled`);
+      setTimeout(() => setFormSuccess(null), 3000);
+    }
+  };
+
+  const handleWriteReview = (item) => {
+    setCurrentItemToReview(item);
+    setShowReviewForm(true);
+    setReviewFormData({rating: 5, comment: ''});
+  };
+
+  const handleBuyAgain = (item) => {
+    // In a real app, this would add the item to the cart
+    setFormSuccess(`${item.name} has been added to your basket`);
+    setTimeout(() => setFormSuccess(null), 3000);
+  };
+
+  const handleSubmitReview = (e) => {
+    e.preventDefault();
+    
+    // Create a new review
+    const newReview = {
+      id: Date.now(),
+      productName: currentItemToReview.name,
+      productImage: currentItemToReview.image,
+      rating: reviewFormData.rating,
+      comment: reviewFormData.comment,
+      date: new Date().toISOString().split('T')[0]
+    };
+
+    setReviews([newReview, ...reviews]);
+    setShowReviewForm(false);
+    setCurrentItemToReview(null);
+    setFormSuccess("Review submitted successfully!");
+    setTimeout(() => setFormSuccess(null), 3000);
+  };
+
+  // New review handlers
+  const handleEditReview = (review) => {
+    setEditingReview(review);
+    setReviewFormData({
+      rating: review.rating,
+      comment: review.comment
+    });
+    setFormSuccess(`Editing review for ${review.productName}`);
+    setTimeout(() => setFormSuccess(null), 3000);
+  };
+
+  const handleUpdateReview = (e) => {
+    e.preventDefault();
+    
+    const updatedReviews = reviews.map(review => 
+      review.id === editingReview.id 
+        ? { 
+            ...review, 
+            rating: reviewFormData.rating,
+            comment: reviewFormData.comment,
+            date: new Date().toISOString().split('T')[0] + " (Edited)"
+          } 
+        : review
+    );
+    
+    setReviews(updatedReviews);
+    setEditingReview(null);
+    setFormSuccess("Review updated successfully!");
+    setTimeout(() => setFormSuccess(null), 3000);
+  };
+
+  const handleDeleteReview = (reviewId) => {
+    if (window.confirm("Are you sure you want to delete this review?")) {
+      const updatedReviews = reviews.filter(review => review.id !== reviewId);
+      setReviews(updatedReviews);
+      setFormSuccess("Review deleted successfully!");
+      setTimeout(() => setFormSuccess(null), 3000);
+    }
   };
 
   
@@ -848,6 +967,112 @@ const Account = () => {
           <div className="orders-content">
             <h2 className="section-title">My Orders</h2>
             
+            {/* Tracking info popup */}
+            {trackingInfo && (
+              <div className="modal-overlay">
+                <div className="modal-content tracking-modal">
+                  <h3>Tracking Information</h3>
+                  <p><strong>Order:</strong> #{trackingInfo.orderId}</p>
+                  <p><strong>Status:</strong> {trackingInfo.status}</p>
+                  <p><strong>Current Location:</strong> {trackingInfo.location}</p>
+                  <p><strong>Estimated Delivery:</strong> {trackingInfo.estimatedDelivery}</p>
+                  <p><strong>Tracking Number:</strong> {trackingInfo.trackingNumber}</p>
+                  <button 
+                    className="close-modal-btn" 
+                    onClick={() => setTrackingInfo(null)}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}
+            
+            {/* Order details popup */}
+            {viewOrderDetails && (
+              <div className="modal-overlay">
+                <div className="modal-content order-details-modal">
+                  <h3>Order #{viewOrderDetails.id} Details</h3>
+                  <p><strong>Date:</strong> {viewOrderDetails.date}</p>
+                  <p><strong>Status:</strong> {viewOrderDetails.status}</p>
+                  <p><strong>Total:</strong> ${viewOrderDetails.total.toFixed(2)}</p>
+                  
+                  <h4>Items:</h4>
+                  <ul className="order-details-items">
+                    {viewOrderDetails.items.map(item => (
+                      <li key={item.id}>
+                        <img src={item.image} alt={item.name} />
+                        <div>
+                          <p>{item.name}</p>
+                          <p>${item.price.toFixed(2)} x {item.quantity}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                  
+                  <button 
+                    className="close-modal-btn" 
+                    onClick={() => setViewOrderDetails(null)}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}
+            
+            {/* Review form popup */}
+            {showReviewForm && currentItemToReview && (
+              <div className="modal-overlay">
+                <div className="modal-content review-form-modal">
+                  <h3>Write a Review for {currentItemToReview.name}</h3>
+                  
+                  <form onSubmit={handleSubmitReview}>
+                    <div className="form-group">
+                      <label>Rating</label>
+                      <div className="rating-selector">
+                        {[1, 2, 3, 4, 5].map(star => (
+                          <span 
+                            key={star}
+                            className={reviewFormData.rating >= star ? 'star filled' : 'star'}
+                            onClick={() => setReviewFormData({...reviewFormData, rating: star})}
+                          >
+                            ★
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div className="form-group">
+                      <label htmlFor="reviewComment">Your Review</label>
+                      <textarea 
+                        id="reviewComment"
+                        rows={4}
+                        value={reviewFormData.comment}
+                        onChange={(e) => setReviewFormData({...reviewFormData, comment: e.target.value})}
+                        placeholder="What did you like or dislike about this product?"
+                        required
+                      ></textarea>
+                    </div>
+                    
+                    <div className="form-actions">
+                      <button type="submit" className="primary-btn">
+                        Submit Review
+                      </button>
+                      <button 
+                        type="button" 
+                        className="secondary-btn" 
+                        onClick={() => {
+                          setShowReviewForm(false);
+                          setCurrentItemToReview(null);
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
+            
             {orders.length === 0 ? (
               <div className="no-orders">
                 <p>You haven't placed any orders yet.</p>
@@ -882,19 +1107,44 @@ const Account = () => {
                           </div>
                           
                           <div className="item-buttons">
-                            <button className="review-item">Write a Review</button>
-                            <button className="buy-again">Buy Again</button>
+                            <button 
+                              className="review-item"
+                              onClick={() => handleWriteReview(item)}
+                            >
+                              Write a Review
+                            </button>
+                            <button 
+                              className="buy-again"
+                              onClick={() => handleBuyAgain(item)}
+                            >
+                              Buy Again
+                            </button>
                           </div>
                         </div>
                       ))}
                     </div>
                     
                     <div className="order-actions">
-                      <button className="track-order-btn">Track Order</button>
-                      <button className="view-details-btn">View Order Details</button>
+                      <button 
+                        className="track-order-btn"
+                        onClick={() => handleTrackOrder(order.id)}
+                      >
+                        Track Order
+                      </button>
+                      <button 
+                        className="view-details-btn"
+                        onClick={() => handleViewOrderDetails(order)}
+                      >
+                        View Order Details
+                      </button>
                       
                       {order.status === 'Processing' && (
-                        <button className="cancel-order-btn">Cancel Order</button>
+                        <button 
+                          className="cancel-order-btn"
+                          onClick={() => handleCancelOrder(order.id)}
+                        >
+                          Cancel Order
+                        </button>
                       )}
                     </div>
                   </div>
@@ -908,6 +1158,57 @@ const Account = () => {
         return (
           <div className="reviews-content">
             <h2 className="section-title">My Reviews</h2>
+            
+            {/* Edit review form */}
+            {editingReview && (
+              <div className="modal-overlay">
+                <div className="modal-content review-form-modal">
+                  <h3>Edit Review for {editingReview.productName}</h3>
+                  
+                  <form onSubmit={handleUpdateReview}>
+                    <div className="form-group">
+                      <label>Rating</label>
+                      <div className="rating-selector">
+                        {[1, 2, 3, 4, 5].map(star => (
+                          <span 
+                            key={star}
+                            className={reviewFormData.rating >= star ? 'star filled' : 'star'}
+                            onClick={() => setReviewFormData({...reviewFormData, rating: star})}
+                          >
+                            ★
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div className="form-group">
+                      <label htmlFor="editReviewComment">Your Review</label>
+                      <textarea 
+                        id="editReviewComment"
+                        rows={4}
+                        value={reviewFormData.comment}
+                        onChange={(e) => setReviewFormData({...reviewFormData, comment: e.target.value})}
+                        placeholder="What did you like or dislike about this product?"
+                        required
+                      ></textarea>
+                    </div>
+                    
+                    <div className="form-actions">
+                      <button type="submit" className="primary-btn">
+                        Update Review
+                      </button>
+                      <button 
+                        type="button" 
+                        className="secondary-btn" 
+                        onClick={() => setEditingReview(null)}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
             
             {reviews.length === 0 ? (
               <div className="no-reviews">
@@ -932,8 +1233,18 @@ const Account = () => {
                       <p className="review-text">{review.comment}</p>
                       
                       <div className="review-actions">
-                        <button className="edit-review-btn">Edit Review</button>
-                        <button className="delete-review-btn">Delete</button>
+                        <button 
+                          className="edit-review-btn"
+                          onClick={() => handleEditReview(review)}
+                        >
+                          Edit Review
+                        </button>
+                        <button 
+                          className="delete-review-btn"
+                          onClick={() => handleDeleteReview(review.id)}
+                        >
+                          Delete
+                        </button>
                       </div>
                     </div>
                   </div>

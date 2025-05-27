@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
   
   
   useEffect(() => {
-    const savedUser = localStorage.getItem('glowBeautyUser');
+    const savedUser = localStorage.getItem('user');
     if (savedUser) {
       setCurrentUser(JSON.parse(savedUser));
     }

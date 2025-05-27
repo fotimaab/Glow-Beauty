@@ -45,7 +45,7 @@ const FragranceProducts = () => {
   const featuredBrands = [
     { id: 1, name: "Chanel", logo: "/images/chanel logo.png" },
     { id: 2, name: "Dior", logo: "/images/dior logo.png" },
-    { id: 3, name: "Gucci", logo: "/images/gucci logo.png" },
+    { id: 3, name: "Gucci", logo: "../images/gucci logo.png" },
     { id: 4, name: "Yves Saint Laurent", logo: "/images/ysl logo.png" },
     { id: 5, name: "Giorgio Armani", logo: "/images/armani logo.png" },
     { id: 6, name: "Tom Ford", logo: "/images/tomford logo.png" },
@@ -241,7 +241,7 @@ const FragranceProducts = () => {
       rating: "★★★★☆",
       ratingCount: "3,210",
       price: "$92.00",
-      image: "../images/1",
+      image: "../images/1 Million.png",
       description: "A daring, sensual men's fragrance that combines fresh grapefruit, red orange, mint, and rose with warm cinnamon, spices, leather, and woody notes. Bold and assertive, this scent embodies luxury and makes a seductive statement."
     }
   ];

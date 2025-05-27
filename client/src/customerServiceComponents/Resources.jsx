@@ -194,7 +194,7 @@ const Resources = () => {
             
             <div className="tutorial-card">
               <div className="tutorial-image">
-                <img src="https://via.placeholder.com/300x200" alt="Eyeshadow Tutorial" />
+                <img src="https://youtu.be/x3ng1jtSE9g?si=m8IaTuCMZDDxN8tz" alt="Eyeshadow Tutorial" />
                 <div className="play-button" onClick={() => handlePlayButtonClick("Perfect Smokey Eye for Beginners")}>
                   <svg className="play-icon" viewBox="0 0 24 24" fill="currentColor">
                     <polygon points="5 3 19 12 5 21 5 3"></polygon>
@@ -219,7 +219,7 @@ const Resources = () => {
             
             <div className="tutorial-card">
               <div className="tutorial-image">
-                <img src="https://via.placeholder.com/300x200" alt="Foundation Tutorial" />
+                <img src="https://youtu.be/8Z7JeSNT_B0?si=4ueUKRE3uM95PDbp" alt="Foundation Tutorial" />
                 <div className="play-button" onClick={() => handlePlayButtonClick("Flawless Foundation Application Techniques")}>
                   <svg className="play-icon" viewBox="0 0 24 24" fill="currentColor">
                     <polygon points="5 3 19 12 5 21 5 3"></polygon>
@@ -244,7 +244,7 @@ const Resources = () => {
             
             <div className="tutorial-card">
               <div className="tutorial-image">
-                <img src="https://via.placeholder.com/300x200" alt="Contouring Tutorial" />
+                <img src="https://youtu.be/LMbX26CPHwM?si=GV2CdmyZxInYDSeA" alt="Contouring Tutorial" />
                 <div className="play-button" onClick={() => handlePlayButtonClick("Advanced Contouring and Highlighting")}>
                   <svg className="play-icon" viewBox="0 0 24 24" fill="currentColor">
                     <polygon points="5 3 19 12 5 21 5 3"></polygon>
@@ -269,7 +269,7 @@ const Resources = () => {
            
             <div className="tutorial-card">
               <div className="tutorial-image">
-                <img src="https://via.placeholder.com/300x200" alt="Lipstick Tutorial" />
+                <img src="https://youtu.be/0Ygiw_i59IA?si=j0CZvUTkxoDTcjP5" alt="Lipstick Tutorial" />
                 <div className="play-button" onClick={() => handlePlayButtonClick("Perfect Lip Application Techniques")}>
                   <svg className="play-icon" viewBox="0 0 24 24" fill="currentColor">
                     <polygon points="5 3 19 12 5 21 5 3"></polygon>

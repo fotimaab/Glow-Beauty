@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './HairProducts.css';
+import { AuthContext } from '../context/AuthContext';
+import { CartContext } from '../context/CartContext';
 
 
 const hairHeroBg = process.env.PUBLIC_URL + '/images/hair-hero-bg.jpg';
@@ -9,6 +11,8 @@ const HairProducts = () => {
   
   const [wishlistItems, setWishlistItems] = useState({});
   const [activePage, setActivePage] = useState(1);
+  const {  language } = useContext(AuthContext);
+  const { addToCart } = useContext(CartContext);
   
   
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -21,7 +25,7 @@ const HairProducts = () => {
       name: 'Hydrating Shampoo',
       brand: 'Olaplex',
       price: '28.00',
-      image: '/images/hydrating shampoo.png',
+      image: '/images/hydratingshampoo.png',
       rating: 5,
       ratingCount: 2345,
       badge: { type: 'bestseller', text: 'BESTSELLER' },
@@ -32,7 +36,7 @@ const HairProducts = () => {
       name: 'Hydrating Conditioner',
       brand: 'Olaplex',
       price: '28.00',
-      image: '/images/hydrating conditioner.png',
+      image: '/images/hydratingconditioner.png',
       rating: 5,
       ratingCount: 1987,
       description: "An intensely hydrating conditioner that detangles and smooths while delivering moisture to dry, damaged hair. Formulated with Olaplex's bond-building technology to repair and protect hair from daily damage."
@@ -42,7 +46,7 @@ const HairProducts = () => {
       name: 'No.3 Hair Perfector',
       brand: 'Olaplex',
       price: '30.00',
-      image: '/images/no 3 hair protector.png',
+      image: '/images/no3hairprotector.png',
       rating: 5,
       ratingCount: 3432,
       badge: { type: 'new', text: 'NEW' },
@@ -63,7 +67,7 @@ const HairProducts = () => {
       name: 'Intense Hydrating Mask',
       brand: 'Briogeo',
       price: '38.00',
-      image: '/images/intense hydrating.png',
+      image: '/images/hydrationmasks.png',
       rating: 4,
       ratingCount: 1543,
       description: "A deeply nourishing weekly treatment mask for dry, damaged hair. Formulated with 98% naturally-derived ingredients including B-vitamins, rosehip oil, and argan oil to restore hydration and enhance hair's strength and elasticity."
@@ -73,7 +77,7 @@ const HairProducts = () => {
       name: 'Curl Defining Cream',
       brand: 'DevaCurl',
       price: '22.00',
-      image: '/images/curl defining.png',
+      image: '/images/curldefining.png',
       rating: 4,
       ratingCount: 932,
       originalPrice: '28.00',
@@ -85,7 +89,7 @@ const HairProducts = () => {
       name: 'Invisible Dry Shampoo',
       brand: 'Living Proof',
       price: '26.00',
-      image: '/images/invisible dry .png',
+      image: '/images/invisibledry.png',
       rating: 5,
       ratingCount: 1876,
       description: 'A lightweight dry shampoo that instantly absorbs oil, sweat, and odor without leaving visible residue on any hair color. The time-released fragrance technology keeps hair smelling fresh all day.'
@@ -95,7 +99,7 @@ const HairProducts = () => {
       name: 'Leave-In Conditioner',
       brand: 'Ouai',
       price: '28.00',
-      image: '/images/liave in.png',
+      image: '/images/liavein.png',
       rating: 4,
       ratingCount: 1234,
       description: 'A multi-benefit leave-in conditioner that detangles, provides heat protection up to 450°F, and fights frizz. Enriched with vitamin E, amino acids, and tamarind seed extract to hydrate, repair, and protect hair.'
@@ -115,7 +119,7 @@ const HairProducts = () => {
       name: 'Scalp Revival Treatment',
       brand: 'Briogeo',
       price: '42.00',
-      image: '/images/scalp revival.png',
+      image: '/images/scalprevival.png',
       rating: 5,
       ratingCount: 765,
       badge: { type: 'new', text: 'NEW' },
@@ -146,8 +150,13 @@ const HairProducts = () => {
   ];
 
   
-  const handleAddToCart = (productName) => {
-    alert(`${productName} added to your cart!`);
+  const handleAddToCart = (product) => {
+    const productWithNumericPrice = {
+      ...product,
+      price: product.price
+    };
+    
+    addToCart(productWithNumericPrice);
   };
 
   const toggleWishlist = (productId, productName) => {
@@ -222,11 +231,11 @@ const HairProducts = () => {
               <div className="hair-type-name">Coily</div>
             </Link>
             <Link to="#" className="hair-type-card">
-              <img src="/images/thin fine hair.png" alt="Fine Hair" className="hair-type-img" />
+              <img src="/images/thinfinehair.png" alt="Fine Hair" className="hair-type-img" />
               <div className="hair-type-name">Fine</div>
             </Link>
             <Link to="#" className="hair-type-card">
-              <img src="/images/think hair.png" alt="Thick Hair" className="hair-type-img" />
+              <img src="/images/thinkhair.png" alt="Thick Hair" className="hair-type-img" />
               <div className="hair-type-name">Thick</div>
             </Link>
           </div>
@@ -249,15 +258,15 @@ const HairProducts = () => {
               <div className="subcategory-name">Treatments</div>
             </Link>
             <Link to="#" className="subcategory-card">
-              <img src="/images/styling .png" alt="Styling Products" className="subcategory-img" />
+              <img src="/images/stylingproducts.png" alt="Styling Products" className="subcategory-img" />
               <div className="subcategory-name">Styling</div>
             </Link>
             <Link to="#" className="subcategory-card">
-              <img src="/images/hair color.png" alt="Hair Color" className="subcategory-img" />
+              <img src="/images/haircolor.png" alt="Hair Color" className="subcategory-img" />
               <div className="subcategory-name">Hair Color</div>
             </Link>
             <Link to="#" className="subcategory-card">
-              <img src="/images/Hair tool.png" alt="Hair Tools" className="subcategory-img" />
+              <img src="/images/Hairtool.png" alt="Hair Tools" className="subcategory-img" />
               <div className="subcategory-name">Tools</div>
             </Link>
           </div>
@@ -316,7 +325,7 @@ const HairProducts = () => {
                     className="add-to-cart" 
                     onClick={(e) => {
                       e.stopPropagation(); 
-                      handleAddToCart(product.name);
+                      handleAddToCart(product);
                     }}
                   >
                     Add to Cart
@@ -381,7 +390,7 @@ const HairProducts = () => {
               </div>
             </div>
             <div className="tip-card">
-              <img src="/images/hair protection.png" alt="Heat Protection" className="tip-img" />
+              <img src="/images/hairprotection.png" alt="Heat Protection" className="tip-img" />
               <div className="tip-content">
                 <h3 className="tip-title">Protecting Your Hair from Heat Damage</h3>
                 <p className="tip-description">Discover essential tips for minimizing heat damage while still achieving your desired styles with hot tools.</p>
@@ -389,7 +398,7 @@ const HairProducts = () => {
               </div>
             </div>
             <div className="tip-card">
-              <img src="/images/hair color care.png" alt="Hair Color Care" className="tip-img" />
+              <img src="/images/haircolorcare.png" alt="Hair Color Care" className="tip-img" />
               <div className="tip-content">
                 <h3 className="tip-title">Maintaining Vibrant Hair Color</h3>
                 <p className="tip-description">Learn how to keep your color-treated hair looking fresh and vibrant between salon visits with these expert tips.</p>
@@ -418,7 +427,7 @@ const HairProducts = () => {
               <div className="subcategory-name">Briogeo</div>
             </Link>
             <Link to="#" className="subcategory-card">
-              <img src="/images/living proof.png" alt="Living Proof" className="subcategory-img" />
+              <img src="/images/livingproof.png" alt="Living Proof" className="subcategory-img" />
               <div className="subcategory-name">Living Proof</div>
             </Link>
             <Link to="#" className="subcategory-card">

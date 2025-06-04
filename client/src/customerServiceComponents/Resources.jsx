@@ -5,14 +5,14 @@ import './Resources.css';
 const Resources = () => {
   
   const [activeCategory, setActiveCategory] = useState('all');
-  
-  
   const [activeRoutine, setActiveRoutine] = useState('morning');
-
   
+  
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [currentVideoId, setCurrentVideoId] = useState('');
+
   const handleCategoryClick = (category) => {
     setActiveCategory(category);
-    
     
     if (category !== 'all') {
       const sectionId = 
@@ -38,27 +38,63 @@ const Resources = () => {
     }
   };
 
-  
   const handleRoutineTabClick = (routine) => {
     setActiveRoutine(routine);
   };
 
   
-  const handlePlayButtonClick = (tutorialTitle) => {
-    alert(`Playing tutorial: ${tutorialTitle}\n\nIn a real implementation, this would open a video player.`);
+  const handlePlayButtonClick = (videoId) => {
+    setCurrentVideoId(videoId);
+    setIsVideoModalOpen(true);
   };
 
-  
   const handleNewsletterSubmit = (e) => {
     e.preventDefault();
     const email = e.target.elements[0].value;
-    
     
     console.log('Newsletter subscription:', email);
     
     alert('Thank you for subscribing to our beauty resources newsletter!');
     e.target.reset();
   };
+
+  
+  const closeVideoModal = () => {
+    setIsVideoModalOpen(false);
+    setCurrentVideoId('');
+  };
+
+  
+  const videoTutorials = [
+    {
+      id: 'x3ng1jtSE9g',
+      title: 'Perfect Smokey Eye for Beginners',
+      thumbnailUrl: '../images/smokey-eye-thumbnail.jpg',
+      duration: '12 minutes',
+      level: 'beginner'
+    },
+    {
+      id: '8Z7JeSNT_B0',
+      title: 'Flawless Foundation Application Techniques',
+      thumbnailUrl: '../images/foundation-thumbnail.jpg',
+      duration: '15 minutes',
+      level: 'intermediate'
+    },
+    {
+      id: 'LMbX26CPHwM',
+      title: 'Advanced Contouring and Highlighting',
+      thumbnailUrl: '../images/contouring-thumbnail.jpg',
+      duration: '20 minutes',
+      level: 'advanced'
+    },
+    {
+      id: '0Ygiw_i59IA',
+      title: 'Perfect Lip Application Techniques',
+      thumbnailUrl: '../images/lipstick-thumbnail.jpg',
+      duration: '8 minutes',
+      level: 'beginner'
+    }
+  ];
 
   return (
     <>
@@ -109,6 +145,26 @@ const Resources = () => {
       </section>
 
       
+      {isVideoModalOpen && (
+        <div className="video-modal-overlay">
+          <div className="video-modal">
+            <button className="close-modal" onClick={closeVideoModal}>
+              &times;
+            </button>
+            <div className="video-container">
+              <iframe 
+                src={`https://www.youtube.com/embed/${currentVideoId}?autoplay=1`}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      )}
+
+      
       <section className="blog-section" id="beauty-blog">
         <div className="container">
           <h2 className="section-title">Beauty Blog</h2>
@@ -118,7 +174,7 @@ const Resources = () => {
             
             <div className="blog-card">
               <div className="blog-image">
-                <img src="../images/10 winter.png" alt="Skincare Tips" />
+                <img src="/images/10winter.png" alt="Skincare Tips" />
               </div>
               <div className="blog-content">
                 <span className="blog-category">Skincare</span>
@@ -127,7 +183,7 @@ const Resources = () => {
                 <div className="blog-meta">
                   <div className="blog-author">
                     <div className="author-image">
-                      <img src="..//images/Emma chen.png" alt="Emma Chen" />
+                      <img src="/images/Emmachen.png" alt="Emma Chen" />
                     </div>
                     <span>Emma Chen</span>
                   </div>
@@ -149,7 +205,7 @@ const Resources = () => {
                 <div className="blog-meta">
                   <div className="blog-author">
                     <div className="author-image">
-                      <img src="../images/maya poter.png" alt="Maya Patel" />
+                      <img src="../images/mayapoter.png" alt="Maya Patel" />
                     </div>
                     <span>Maya Patel</span>
                   </div>
@@ -162,7 +218,7 @@ const Resources = () => {
             
             <div className="blog-card">
               <div className="blog-image">
-                <img src="../images/how to repair.png" alt="Hair Care" />
+                <img src="/images/howtorepair.png" alt="Hair Care" />
               </div>
               <div className="blog-content">
                 <span className="blog-category">Hair</span>
@@ -171,7 +227,7 @@ const Resources = () => {
                 <div className="blog-meta">
                   <div className="blog-author">
                     <div className="author-image">
-                      <img src="../images/james wilson.png" alt="James Wilson" />
+                      <img src="../images/jameswilson.png" alt="James Wilson" />
                     </div>
                     <span>James Wilson</span>
                   </div>
@@ -191,105 +247,39 @@ const Resources = () => {
           <p className="section-subtitle">Step-by-step video guides to help you master different makeup techniques</p>
           
           <div className="tutorials-grid">
-            
-            <div className="tutorial-card">
-              <div className="tutorial-image">
-                <img src="https://youtu.be/x3ng1jtSE9g?si=m8IaTuCMZDDxN8tz" alt="Eyeshadow Tutorial" />
-                <div className="play-button" onClick={() => handlePlayButtonClick("Perfect Smokey Eye for Beginners")}>
-                  <svg className="play-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                  </svg>
-                </div>
-              </div>
-              <div className="tutorial-content">
-                <h3 className="tutorial-title">Perfect Smokey Eye for Beginners</h3>
-                <div className="tutorial-info">
-                  <div className="tutorial-duration">
-                    <svg className="duration-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <polyline points="12 6 12 12 16 14"></polyline>
+            {videoTutorials.map((tutorial) => (
+              <div className="tutorial-card" key={tutorial.id}>
+                <div className="tutorial-image">
+                  
+                  <img 
+                    src={tutorial.thumbnailUrl || `https://img.youtube.com/vi/${tutorial.id}/maxresdefault.jpg`} 
+                    alt={tutorial.title} 
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = `https://img.youtube.com/vi/${tutorial.id}/hqdefault.jpg`;
+                    }}
+                  />
+                  <div className="play-button" onClick={() => handlePlayButtonClick(tutorial.id)}>
+                    <svg className="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
                     </svg>
-                    <span>12 minutes</span>
                   </div>
-                  <span className="tutorial-level level-beginner">Beginner</span>
                 </div>
-              </div>
-            </div>
-            
-            
-            <div className="tutorial-card">
-              <div className="tutorial-image">
-                <img src="https://youtu.be/8Z7JeSNT_B0?si=4ueUKRE3uM95PDbp" alt="Foundation Tutorial" />
-                <div className="play-button" onClick={() => handlePlayButtonClick("Flawless Foundation Application Techniques")}>
-                  <svg className="play-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                  </svg>
-                </div>
-              </div>
-              <div className="tutorial-content">
-                <h3 className="tutorial-title">Flawless Foundation Application Techniques</h3>
-                <div className="tutorial-info">
-                  <div className="tutorial-duration">
-                    <svg className="duration-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                    <span>15 minutes</span>
+                <div className="tutorial-content">
+                  <h3 className="tutorial-title">{tutorial.title}</h3>
+                  <div className="tutorial-info">
+                    <div className="tutorial-duration">
+                      <svg className="duration-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                      </svg>
+                      <span>{tutorial.duration}</span>
+                    </div>
+                    <span className={`tutorial-level level-${tutorial.level}`}>{tutorial.level.charAt(0).toUpperCase() + tutorial.level.slice(1)}</span>
                   </div>
-                  <span className="tutorial-level level-intermediate">Intermediate</span>
                 </div>
               </div>
-            </div>
-            
-            
-            <div className="tutorial-card">
-              <div className="tutorial-image">
-                <img src="https://youtu.be/LMbX26CPHwM?si=GV2CdmyZxInYDSeA" alt="Contouring Tutorial" />
-                <div className="play-button" onClick={() => handlePlayButtonClick("Advanced Contouring and Highlighting")}>
-                  <svg className="play-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                  </svg>
-                </div>
-              </div>
-              <div className="tutorial-content">
-                <h3 className="tutorial-title">Advanced Contouring and Highlighting</h3>
-                <div className="tutorial-info">
-                  <div className="tutorial-duration">
-                    <svg className="duration-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                    <span>20 minutes</span>
-                  </div>
-                  <span className="tutorial-level level-advanced">Advanced</span>
-                </div>
-              </div>
-            </div>
-            
-           
-            <div className="tutorial-card">
-              <div className="tutorial-image">
-                <img src="https://youtu.be/0Ygiw_i59IA?si=j0CZvUTkxoDTcjP5" alt="Lipstick Tutorial" />
-                <div className="play-button" onClick={() => handlePlayButtonClick("Perfect Lip Application Techniques")}>
-                  <svg className="play-icon" viewBox="0 0 24 24" fill="currentColor">
-                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
-                  </svg>
-                </div>
-              </div>
-              <div className="tutorial-content">
-                <h3 className="tutorial-title">Perfect Lip Application Techniques</h3>
-                <div className="tutorial-info">
-                  <div className="tutorial-duration">
-                    <svg className="duration-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                    <span>8 minutes</span>
-                  </div>
-                  <span className="tutorial-level level-beginner">Beginner</span>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -302,7 +292,7 @@ const Resources = () => {
           
           <div className="foundation-container">
             <div className="foundation-image">
-              <img src="../images/how to find your.png" alt="Foundation Guide" />
+              <img src="/images/howtofindyour.png" alt="Foundation Guide" />
             </div>
             
             <div className="foundation-content">
@@ -393,7 +383,6 @@ const Resources = () => {
                   </div>
                 </div>
                 
-                
                 <div className="routine-step">
                   <div className="step-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -474,7 +463,6 @@ const Resources = () => {
             
             
             <div className={`routine-panel ${activeRoutine === 'evening' ? 'active' : ''}`} id="evening-routine">
-              
               <div className="routine-steps">
                 <div className="routine-step">
                   <div className="step-icon">
@@ -492,7 +480,70 @@ const Resources = () => {
                   </div>
                 </div>
                 
+                <div className="routine-step">
+                  <div className="step-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0016.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 002 8.5c0 2.3 1.5 4.05 3 5.5l7 7 7-7z"></path>
+                    </svg>
+                  </div>
+                  <div className="step-content">
+                    <h4>2. Tone</h4>
+                    <p>Use a hydrating or exfoliating toner to further cleanse and prepare your skin for nighttime treatments.</p>
+                    <div className="product-recommendation">
+                      Try: Glow Beauty Exfoliating Toner
+                    </div>
+                  </div>
+                </div>
                 
+                <div className="routine-step">
+                  <div className="step-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M7 2h10a2 2 0 012 2v16a2 2 0 01-2 2H7a2 2 0 01-2-2V4a2 2 0 012-2z"></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M10 11h4"></path>
+                    </svg>
+                  </div>
+                  <div className="step-content">
+                    <h4>3. Treatment Serum</h4>
+                    <p>Apply targeted treatment serums such as retinol for anti-aging, niacinamide for pore refinement, or hyaluronic acid for hydration.</p>
+                    <div className="product-recommendation">
+                      Try: Glow Beauty Retinol Night Serum
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="routine-step">
+                  <div className="step-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <path d="M12 8v8"></path>
+                      <path d="M8 12h8"></path>
+                    </svg>
+                  </div>
+                  <div className="step-content">
+                    <h4>4. Eye Cream</h4>
+                    <p>Gently apply eye cream using your ring finger to the orbital bone area to target fine lines, dark circles, and puffiness.</p>
+                    <div className="product-recommendation">
+                      Try: Glow Beauty Rejuvenating Eye Cream
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="routine-step">
+                  <div className="step-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M12 2v6l3 3-3 3v6" />
+                      <circle cx="12" cy="12" r="10" />
+                    </svg>
+                  </div>
+                  <div className="step-content">
+                    <h4>5. Night Moisturizer</h4>
+                    <p>Finish with a rich night cream to seal in treatments and provide intensive overnight hydration and repair.</p>
+                    <div className="product-recommendation">
+                      Try: Glow Beauty Overnight Recovery Cream
+                    </div>
+                  </div>
+                </div>
               </div>
               
               <div className="routine-note">
@@ -502,7 +553,81 @@ const Resources = () => {
             
             
             <div className={`routine-panel ${activeRoutine === 'weekly' ? 'active' : ''}`} id="weekly-routine">
+              <div className="routine-steps">
+                <div className="routine-step">
+                  <div className="step-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M8 6h10a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h2z"></path>
+                      <path d="M6 2v4"></path>
+                      <path d="M18 2v4"></path>
+                      <path d="M2 10h20"></path>
+                    </svg>
+                  </div>
+                  <div className="step-content">
+                    <h4>1. Exfoliate (1-2x per week)</h4>
+                    <p>Use a physical or chemical exfoliant to remove dead skin cells, unclog pores, and improve skin texture and tone.</p>
+                    <div className="product-recommendation">
+                      Try: Glow Beauty Gentle Enzyme Exfoliator
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="routine-step">
+                  <div className="step-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M21 12c0 4.418-4.03 8-9 8s-9-3.582-9-8 4.03-8 9-8 9 3.582 9 8z"></path>
+                      <path d="M3.6 8.5c1.94-1.93 4.88-3.5 8.4-3.5s6.46 1.57 8.4 3.5"></path>
+                      <path d="M3.6 15.5c1.94 1.93 4.88 3.5 8.4 3.5s6.46-1.57 8.4-3.5"></path>
+                      <line x1="12" y1="4" x2="12" y2="20"></line>
+                    </svg>
+                  </div>
+                  <div className="step-content">
+                    <h4>2. Face Mask (1-2x per week)</h4>
+                    <p>Apply a mask tailored to your skin concerns - clay for oily skin, hydrating for dry skin, or brightening for dull complexion.</p>
+                    <div className="product-recommendation">
+                      Try: Glow Beauty Multi-Mask Collection
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="routine-step">
+                  <div className="step-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M12 5v14"></path>
+                      <path d="M5 12h14"></path>
+                    </svg>
+                  </div>
+                  <div className="step-content">
+                    <h4>3. Intensive Treatment (1x per week)</h4>
+                    <p>Use a more potent treatment such as a chemical peel, concentrated serum, or overnight mask for targeted results.</p>
+                    <div className="product-recommendation">
+                      Try: Glow Beauty 10% Glycolic Acid Treatment
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="routine-step">
+                  <div className="step-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M21 7.5V6a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7.5"></path>
+                      <path d="M16 2v4"></path>
+                      <path d="M8 2v4"></path>
+                      <path d="M3 10h18"></path>
+                    </svg>
+                  </div>
+                  <div className="step-content">
+                    <h4>4. Facial Massage (1x per week)</h4>
+                    <p>Spend 5-10 minutes massaging your face using facial oil to boost circulation, reduce puffiness, and promote relaxation.</p>
+                    <div className="product-recommendation">
+                      Try: Glow Beauty Facial Massage Oil + Gua Sha Tool
+                    </div>
+                  </div>
+                </div>
+              </div>
               
+              <div className="routine-note">
+                <strong>Tip:</strong> Space out your weekly treatments throughout the week rather than doing them all on the same day to avoid overwhelming your skin.
+              </div>
             </div>
           </div>
         </div>

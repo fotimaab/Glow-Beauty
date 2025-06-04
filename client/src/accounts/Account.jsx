@@ -8,7 +8,6 @@ const Account = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  
   const [userProfile, setUserProfile] = useState({
     firstName: currentUser?.firstName || '',
     lastName: currentUser?.lastName || '',
@@ -63,7 +62,7 @@ const Account = () => {
       total: 76.50,
       items: [
         { id: 3, name: 'Eye Cream', price: 38.50, quantity: 1, image: '../images/eyecare.png' },
-        { id: 4, name: 'Mascara', price: 19.00, quantity: 2, image: '../images/Lengthening Mascara.png' }
+        { id: 4, name: 'Mascara', price: 19.00, quantity: 2, image: '../images/BetterThanSexMascara.png' }
       ]
     }
   ]);
@@ -79,7 +78,7 @@ const Account = () => {
     {
       id: 1,
       productName: 'Moisture Surge Face Cream',
-      productImage: '../images/dramatically .png',
+      productImage: '../images/DramaticallyDifferentMoisturizing.png',
       rating: 5,
       comment: 'Amazing product! Really helped with my dry skin during winter months.',
       date: '2023-10-28'
@@ -87,7 +86,7 @@ const Account = () => {
     {
       id: 2,
       productName: 'Double Wear Foundation',
-      productImage: '../images/double wear stay.png',
+      productImage: '../images/doublewearstay.png',
       rating: 4,
       comment: 'Great coverage and lasts all day. Shade matching was perfect.',
       date: '2023-09-15'
@@ -126,7 +125,6 @@ const Account = () => {
     }
   }, [currentUser]);
 
-  console.log(currentUser);
   if (!currentUser) {
 
     return <Navigate to="/" />;

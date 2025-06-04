@@ -144,7 +144,7 @@ const AboutUs = () => {
             
             <div className="team-card">
               <div className="team-image">
-                <img src="/images/Emma chen.png" alt="Emma Chen" />
+                <img src="/images/Emmachen.png" alt="Emma Chen" />
               </div>
               <h3 className="team-name">Emma Chen</h3>
               <p className="team-role">Founder & CEO</p>
@@ -171,7 +171,7 @@ const AboutUs = () => {
            
             <div className="team-card">
               <div className="team-image">
-                <img src="/images/david kim.png" alt="David Kim" />
+                <img src="/images/davidkim.png" alt="David Kim" />
               </div>
               <h3 className="team-name">David Kim</h3>
               <p className="team-role">Chief Product Officer</p>
@@ -198,7 +198,7 @@ const AboutUs = () => {
             
             <div className="team-card">
               <div className="team-image">
-                <img src="/images/maya poter.png" alt="Maya Patel" />
+                <img src="/images/mayapoter.png" alt="Maya Patel" />
               </div>
               <h3 className="team-name">Maya Patel</h3>
               <p className="team-role">Chief Marketing Officer</p>
@@ -225,7 +225,7 @@ const AboutUs = () => {
             
             <div className="team-card">
               <div className="team-image">
-                <img src="/images/james wilson.png" alt="James Wilson" />
+                <img src="/images/jameswilson.png" alt="James Wilson" />
               </div>
               <h3 className="team-name">James Wilson</h3>
               <p className="team-role">Chief Sustainability Officer</p>
@@ -323,7 +323,7 @@ const AboutUs = () => {
             
             <div className="sustainability-card">
               <div className="sustainability-image">
-                <img src="/images/ethical sourc.png" alt="Ethical Sourcing" />
+                <img src="/images/ethicalsourc.png" alt="Ethical Sourcing" />
               </div>
               <div className="sustainability-content">
                 <h3 className="sustainability-title">Ethical Sourcing</h3>
@@ -353,8 +353,8 @@ const AboutUs = () => {
           
           <div className="press-logos">
             <img src="/images/vogue.png" alt="Vogue" className="press-logo" />
-            <img src="/images/elle logo.png" alt="Elle" className="press-logo" />
-            <img src="/images/allure .png" alt="Allure" className="press-logo" />
+            <img src="/images/ellelogo.png" alt="Elle" className="press-logo" />
+            <img src="/images/allure.logo.png" alt="Allure" className="press-logo" />
             <img src="/images/glamour.png" alt="Glamour" className="press-logo" />
             <img src="/images/forbes.png" alt="Forbes" className="press-logo" />
           </div>

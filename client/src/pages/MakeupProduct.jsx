@@ -1,9 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import './MakeupProduct.css';
+import { AuthContext } from '../context/AuthContext';
+import { CartContext } from '../context/CartContext';
 
 const MakeupProduct = () => {
+  const {  language } = useContext(AuthContext);
+  const { addToCart } = useContext(CartContext);
   
-  const [language, setLanguage] = useState(localStorage.getItem('selectedLanguage') || 'en');
   
   
   const [cameraModalVisible, setCameraModalVisible] = useState(false);
@@ -222,7 +225,7 @@ const MakeupProduct = () => {
       id: 2,
       name: "Double Wear Stay-in-Place Foundation",
       brand: "Estée Lauder",
-      image: "/images/double wear stay.png",
+      image: "../images/doublewearstay.png",
       rating: "★★★★★",
       ratingCount: 2103,
       price: "$46.00",
@@ -243,7 +246,7 @@ const MakeupProduct = () => {
       id: 4,
       name: "Soft Matte Complete Foundation",
       brand: "NARS",
-      image: "/images/Soft matte component.png",
+      image: "../images/Softmattecomponent.png",
       rating: "★★★★☆",
       ratingCount: 542,
       price: "$42.00",
@@ -253,7 +256,7 @@ const MakeupProduct = () => {
       id: 5,
       name: "Matte Lipstick",
       brand: "MAC",
-      image: "/images/matte lipstic.png",
+      image: "../images/mattelipstic.png",
       rating: "★★★★★",
       ratingCount: 1876,
       price: "$19.00",
@@ -275,7 +278,7 @@ const MakeupProduct = () => {
       id: 7,
       name: "Better Than Sex Mascara",
       brand: "Too Faced",
-      image: "/images/Better Than Sex Mascara.png",
+      image: "../images/BetterThanSexMascara.png",
       rating: "★★★★☆",
       ratingCount: 1432,
       price: "$27.00",
@@ -295,7 +298,7 @@ const MakeupProduct = () => {
       id: 9,
       name: "Sheer Glow Foundation",
       brand: "NARS",
-      image: "/images/sheer Glow.png",
+      image: "../images/sheerGlow.png",
       rating: "★★★★☆",
       ratingCount: 987,
       price: "$47.00",
@@ -351,7 +354,7 @@ const MakeupProduct = () => {
     {
       id: 3,
       name: "Lips",
-      image: "/images/lip product.png"
+      image: "../images/lipproduct.png"
     },
     {
       id: 4,
@@ -380,7 +383,7 @@ const MakeupProduct = () => {
     {
       id: 2,
       name: "MAC",
-      image: "/images/macmakeupprodut page.png"
+      image: "/images/macmakeupprodutpage.png"
     },
     {
       id: 3,
@@ -390,17 +393,17 @@ const MakeupProduct = () => {
     {
       id: 4,
       name: "Too Faced",
-      image: "/images/too face.png"
+      image: "../images/tooface.png"
     },
     {
       id: 5,
       name: "Urban Decay",
-      image: "/images/urban decay.png"
+      image: "/images/urbandecay.png"
     },
     {
       id: 6,
       name: "Estée Lauder",
-      image: "/images/estee lauder.png"
+      image: "/images/esteelauder.png"
     }
   ];
 
@@ -487,8 +490,13 @@ const MakeupProduct = () => {
   };
 
   
-  const handleAddToCart = (productName) => {
-    alert(`${productName} added to your cart!`);
+  const handleAddToCart = (product) => {
+    const productWithNumericPrice = {
+      ...product,
+      price: product.price
+    };
+    
+    addToCart(productWithNumericPrice);
   };
 
   
@@ -603,7 +611,7 @@ const MakeupProduct = () => {
                     className="add-to-cart" 
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleAddToCart(product.name);
+                      handleAddToCart(product);
                     }}
                   >
                     {translate("Add to Cart")}

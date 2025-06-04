@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext'; // Adjust path as needed
 import './LogIn.css';
 
 function LogIn() {
@@ -11,11 +12,13 @@ function LogIn() {
   
   const [errors, setErrors] = useState({});
   const [loginError, setLoginError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [forgotPasswordEmail, setForgotPasswordEmail] = useState('');
   const [forgotPasswordSubmitted, setForgotPasswordSubmitted] = useState(false);
   
   const navigate = useNavigate();
+  const { signIn } = useContext(AuthContext);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -23,6 +26,13 @@ function LogIn() {
       ...formData,
       [name]: type === 'checkbox' ? checked : value
     });
+    // Clear errors when user starts typing
+    if (errors[name]) {
+      setErrors({
+        ...errors,
+        [name]: ''
+      });
+    }
   };
 
   const handleForgotPasswordChange = (e) => {
@@ -54,9 +64,10 @@ function LogIn() {
     return null;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoginError('');
+    setErrors({});
     
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
@@ -64,23 +75,64 @@ function LogIn() {
       return;
     }
     
+    setIsLoading(true);
     
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-      if (user.email === formData.email) {
+    try {
+      const response = await fetch("http://localhost:8000/api/account/login/", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Login successful
+        const userData = {
+          email: formData.email,
+          ...data, // Include any additional user data from the response
+          isAuthenticated: true
+        };
         
-        user.isLoggedIn = true;
-        localStorage.setItem('user', JSON.stringify(user));
+        // Use AuthContext to sign in the user
+        signIn(userData);
         
+        // Store remember me preference
+        if (formData.rememberMe) {
+          localStorage.setItem('rememberMe', 'true');
+        }
         
+        // Navigate to account page or dashboard
         navigate('/account');
-        return;
+      } else {
+        // Handle different error responses
+        if (response.status === 400) {
+          setLoginError('Invalid email or password. Please try again.');
+        } else if (response.status === 401) {
+          setLoginError('Invalid credentials. Please check your email and password.');
+        } else if (response.status === 404) {
+          setLoginError('Account not found. Please check your email or sign up.');
+        } else if (response.status >= 500) {
+          setLoginError('Server error. Please try again later.');
+        } else {
+          setLoginError(data.message || 'Login failed. Please try again.');
+        }
       }
+    } catch (error) {
+      console.error('Login error:', error);
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        setLoginError('Unable to connect to server. Please check your internet connection.');
+      } else {
+        setLoginError('An unexpected error occurred. Please try again.');
+      }
+    } finally {
+      setIsLoading(false);
     }
-    
-    
-    setLoginError('Invalid email or password. Please try again.');
   };
 
   const handleForgotPasswordSubmit = (e) => {
@@ -92,7 +144,7 @@ function LogIn() {
       return;
     }
     
-    
+    // Here you would typically make an API call to send reset email
     setForgotPasswordSubmitted(true);
   };
 
@@ -100,7 +152,6 @@ function LogIn() {
     <div className="login-container">
       <div className="login-card">
         {!showForgotPassword ? (
-          
           <>
             <h2>Welcome Back!</h2>
             <p className="login-subtitle">Log in to your Glow Beauty account</p>
@@ -118,6 +169,7 @@ function LogIn() {
                   onChange={handleChange}
                   className={errors.email ? 'error' : ''}
                   placeholder="Enter your email"
+                  disabled={isLoading}
                 />
                 {errors.email && <span className="error-message">{errors.email}</span>}
               </div>
@@ -132,6 +184,7 @@ function LogIn() {
                   onChange={handleChange}
                   className={errors.password ? 'error' : ''}
                   placeholder="Enter your password"
+                  disabled={isLoading}
                 />
                 {errors.password && <span className="error-message">{errors.password}</span>}
               </div>
@@ -143,7 +196,8 @@ function LogIn() {
                     id="rememberMe" 
                     name="rememberMe"
                     checked={formData.rememberMe}
-                    onChange={handleChange} 
+                    onChange={handleChange}
+                    disabled={isLoading}
                   />
                   <label htmlFor="rememberMe">Remember me</label>
                 </div>
@@ -151,21 +205,28 @@ function LogIn() {
                   type="button" 
                   className="forgot-link"
                   onClick={() => setShowForgotPassword(true)}
+                  disabled={isLoading}
                 >
                   Forgot password?
                 </button>
               </div>
               
-              <button type="submit" className="login-btn">Log In</button>
+              <button 
+                type="submit" 
+                className="login-btn"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Logging in...' : 'Log In'}
+              </button>
             </form>
             
             <div className="social-login">
               <p>Or continue with</p>
               <div className="social-buttons">
-                <button className="social-btn google">
+                <button className="social-btn google" disabled={isLoading}>
                   <i className="fab fa-google"></i> Google
                 </button>
-                <button className="social-btn facebook">
+                <button className="social-btn facebook" disabled={isLoading}>
                   <i className="fab fa-facebook-f"></i> Facebook
                 </button>
               </div>
@@ -176,7 +237,6 @@ function LogIn() {
             </div>
           </>
         ) : (
-          
           <>
             <button 
               className="back-to-login-btn"

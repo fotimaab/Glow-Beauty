@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './SignIn.css';
 import './Account'
+import { AuthContext } from '../context/AuthContext';
 
 function SignIn() {
+  const { signUp} = useContext(AuthContext);
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -61,8 +63,13 @@ function SignIn() {
       setErrors(validationErrors);
       return;
     }
-    
-
+    let userData = {
+      first_name: formData.first_name,
+      last_name: formData.last_name,
+      email: formData.email,
+      isLoggedIn: true
+    }
+    signUp(userData);
     localStorage.setItem('user', JSON.stringify({
       first_name: formData.first_name,
       last_name: formData.last_name,

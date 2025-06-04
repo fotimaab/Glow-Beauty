@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import './ToolsProducts.css';
 import { Camera, Filter, SortDesc, Heart, X } from 'lucide-react';
+import { useContext } from 'react';
+import { CartContext } from '../context/CartContext';
 
 const ToolsProducts = () => {
   const [activePageButton, setActivePageButton] = useState(1);
   const [wishlisted, setWishlisted] = useState({});
+  const { addToCart } = useContext(CartContext);
   
   const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -12,7 +15,7 @@ const ToolsProducts = () => {
   const products = [
     {
       id: "1",
-      image: "../images/original beauty.png",
+      image: "../images/originalbeauty.png",
       name: "Original Beauty Blender",
       brand: "Beauty Blender",
       price: "$20.00",
@@ -96,7 +99,7 @@ const ToolsProducts = () => {
     },
     {
       id: "9",
-      image: "../images/1 ceramic.png",
+      image: "../images/1ceramic.png",
       name: '1" Ceramic Curling Iron',
       brand: "T3",
       price: "$150.00",
@@ -117,7 +120,7 @@ const ToolsProducts = () => {
     },
     {
       id: "11",
-      image: "../images/acylic .png",
+      image: "/images/acylicorganizer.png",
       name: "Acrylic Makeup Organizer",
       brand: "Glow Beauty",
       price: "$32.00",
@@ -139,8 +142,13 @@ const ToolsProducts = () => {
     }
   ];
 
-  const handleAddToCart = (productName) => {
-    alert(`${productName} added to your cart!`);
+  const handleAddToCart = (product) => {
+    const productWithNumericPrice = {
+      ...product,
+      price: product.price
+    };
+    
+    addToCart(productWithNumericPrice);
   };
 
   const handleWishlist = (productId, productName) => {
@@ -212,7 +220,7 @@ const ToolsProducts = () => {
               count={23} 
             />
             <CategoryCard 
-              image="../images/beauty tech.png" 
+              image="../images/beautytech.png" 
               name="Beauty Tech" 
               count={19} 
             />
@@ -298,7 +306,7 @@ const ToolsProducts = () => {
           <h2 className="how-to-title">How To Use Your Beauty Tools</h2>
           <div className="tutorials-grid">
             <TutorialCard 
-              image="../images/clean makeup.png" 
+              image="../images/cleanmakeup.png" 
               title="How to Clean Makeup Brushes" 
               description="Learn the proper techniques for cleaning your makeup brushes to prevent bacteria buildup and extend their lifespan." 
             />
@@ -322,23 +330,23 @@ const ToolsProducts = () => {
           <h2 className="section-title">Featured Brands</h2>
           <div className="brand-grid">
             <BrandCard 
-              logo="../images/beauty logo.png" 
+              logo="../images/beautylogo.png" 
               name="Beauty Blender" 
             />
             <BrandCard 
-              logo="../images/foreo logo.png" 
+              logo="../images/foreologo.png" 
               name="FOREO" 
             />
             <BrandCard 
-              logo="../images/dyson logo.png" 
+              logo="../images/dysonlogo.png" 
               name="Dyson" 
             />
             <BrandCard 
-              logo="../images/morphe logo.png" 
+              logo="../images/morphelogo.png" 
               name="Morphe" 
             />
             <BrandCard 
-              logo="../images/tweezerman logo.png" 
+              logo="../images/tweezermanlogo.png" 
               name="Tweezerman" 
             />
             <BrandCard 

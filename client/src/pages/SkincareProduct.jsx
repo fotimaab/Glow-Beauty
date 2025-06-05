@@ -547,7 +547,7 @@ const SkincareProduct = () => {
     {
       id: 3,
       name: "Serums",
-      image: "../images/serums.png"
+      image: "../images/vitaminCserum.png"
     },
     {
       id: 4,
@@ -557,7 +557,7 @@ const SkincareProduct = () => {
     {
       id: 5,
       name: "Masks",
-      image: "../images/masks.png"
+      image: "../images/hydrationmasks.png"
     },
     {
       id: 6,

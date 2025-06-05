@@ -444,7 +444,13 @@ header {
   background-color: var(--dark-color);
   transform: translateY(-1px);
 }
-
+.dashboard {
+  display: flex;
+  justify-content: center;
+}
+.dashboard span {
+  margin-right: 8px;
+}
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .header-top {

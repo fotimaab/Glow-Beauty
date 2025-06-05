@@ -4,7 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext';
 
 const MakeupProduct = () => {
-  const {  language } = useContext(AuthContext);
+  const {  language, changeLanguage } = useContext(AuthContext);
   const { addToCart } = useContext(CartContext);
   
   
@@ -474,7 +474,7 @@ const MakeupProduct = () => {
 
   
   const handleLanguageChange = (lang) => {
-    setLanguage(lang);
+    changeLanguage(lang);
     localStorage.setItem('selectedLanguage', lang);
   };
 

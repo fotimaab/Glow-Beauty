@@ -502,10 +502,7 @@ const NewProduct = () => {
   }, [cameraModalVisible]);
 
   
-  const handleLanguageChange = (lang) => {
-    setLanguage(lang);
-    localStorage.setItem('selectedLanguage', lang);
-  };
+
 
   
   const toggleWishlist = (productId) => {

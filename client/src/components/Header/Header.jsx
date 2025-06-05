@@ -69,7 +69,7 @@ function Header({ onOpenCameraModal }) {
         <div className="header-top">
           <Link to="/" className="logo">GLOW BEAUTY</Link>
           <div className="user-nav">
-            {currentUser?.firstName === undefined ? <Link to="/signin">Sign Up</Link> : <div className=''>
+            {currentUser?.firstName === undefined ? <Link to="/signin">Sign Up</Link> : <div className='dashboard'>
               <span>
                 <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
                   <circle cx="12" cy="12" r="11" stroke="black" stroke-width="2" />
@@ -78,7 +78,7 @@ function Header({ onOpenCameraModal }) {
                 </svg>
               </span>
 
-              <Link to="/account">{currentUser?.firstName}</Link></div>}
+              <Link to="/account" >{currentUser?.firstName}</Link></div>}
 
 
             {/* Shopping Cart */}

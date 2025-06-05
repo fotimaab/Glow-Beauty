@@ -24,7 +24,7 @@ function FoundationFinder({ onOpenCameraModal }) {
             </div>
             <div className="finder-image">
               <img 
-                src="../images/Foundation finder section.png" 
+                src="/images/Foundationfindersection.png" 
                 alt="Glow Beauty Foundation Shade Finder" 
                 className="shade-finder-img" 
               />

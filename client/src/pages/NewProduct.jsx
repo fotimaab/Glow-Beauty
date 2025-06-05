@@ -1,9 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './NewProduct.css';
+import { useContext } from 'react';
+import { CartContext } from '../context/CartContext';
+import { AuthContext } from '../context/AuthContext';
+
 
 const NewProduct = () => {
+  const { addToCart } = useContext(CartContext);
   
-  const [language, setLanguage] = useState(localStorage.getItem('selectedLanguage') || 'en');
+  const { language } = useContext(AuthContext);
+  // const [language, setLanguage] = useState(localStorage.getItem('selectedLanguage') || 'en');
   
   
   const [cameraModalVisible, setCameraModalVisible] = useState(false);
@@ -220,7 +226,7 @@ const NewProduct = () => {
       id: 1,
       name: "Luminous Silk Foundation",
       brand: "Giorgio Armani",
-      image: "../images/luminous.png",
+      image: "/images/luminous.png",
       rating: "★★★★★",
       ratingCount: 1245,
       price: "$64.00",
@@ -232,7 +238,7 @@ const NewProduct = () => {
       id: 2,
       name: "Hydra Zen Anti-Stress Moisturizing Cream",
       brand: "Lancôme",
-      image: "../images/hydra-zen.png",
+      image: "/images/hydra-zen.png",
       rating: "★★★★★",
       ratingCount: 324,
       price: "$48.00",
@@ -244,7 +250,7 @@ const NewProduct = () => {
       id: 3,
       name: "Lip Glow Oil",
       brand: "Dior",
-      image: "../images/LipGlowOil.png",
+      image: "/images/LipGlowOil.png",
       rating: "★★★★☆",
       ratingCount: 156,
       price: "$38.00",
@@ -256,7 +262,7 @@ const NewProduct = () => {
       id: 4,
       name: "Soleil Tan Bronze Universal Bronzing Cream",
       brand: "Chanel",
-      image: "../images/soleil-tan.png",
+      image: "/images/soleil-tan.png",
       rating: "★★★★★",
       ratingCount: 211,
       price: "$50.00",
@@ -268,7 +274,7 @@ const NewProduct = () => {
       id: 5,
       name: "Tatouage Couture Liquid Matte Lip Stain",
       brand: "Yves Saint Laurent",
-      image: "../images/matte-lipstic.png",
+      image: "/images/matte-lipstic.png",
       rating: "★★★★★",
       ratingCount: 178,
       price: "$37.00",
@@ -280,7 +286,7 @@ const NewProduct = () => {
       id: 6,
       name: "Charlotte's Magic Cream",
       brand: "Charlotte Tilbury",
-      image: "../images/magic-cream.png",
+      image: "/images/magic-cream.png",
       rating: "★★★★☆",
       ratingCount: 287,
       price: "$64.00",
@@ -292,7 +298,7 @@ const NewProduct = () => {
       id: 7,
       name: "Gloss Bomb Universal Lip Luminizer",
       brand: "Fenty Beauty",
-      image: "../images/li[ glooss.png",
+      image: "../images/loss-bomb.png", 
       rating: "★★★★★",
       ratingCount: 394,
       price: "$20.00",
@@ -304,7 +310,7 @@ const NewProduct = () => {
       id: 8,
       name: "All Nighter Long-Lasting Makeup Setting Spray",
       brand: "Urban Decay",
-      image: "../images/setting-spray.png",
+      image: "/images/setting-spray.png",
       rating: "★★★★★",
       ratingCount: 512,
       price: "$33.00",
@@ -316,7 +322,7 @@ const NewProduct = () => {
       id: 9,
       name: "Rouge Allure Velvet Lipstick",
       brand: "Chanel",
-      image: "../images/lipstick.png",
+      image: "/images/lipstick.png",
       rating: "★★★★☆",
       ratingCount: 167,
       price: "$42.00",
@@ -328,7 +334,7 @@ const NewProduct = () => {
       id: 10,
       name: "Advanced Night Repair Serum",
       brand: "Estée Lauder",
-      image: "../images/night-repair.png",
+      image: "/images/night-repair.png",
       rating: "★★★★★",
       ratingCount: 428,
       price: "$75.00",
@@ -340,7 +346,7 @@ const NewProduct = () => {
       id: 11,
       name: "Hoola Matte Bronzer",
       brand: "Benefit Cosmetics",
-      image: "../images/hoola.png",
+      image: "/images/hoola.png",
       rating: "★★★★☆",
       ratingCount: 356,
       price: "$30.00",
@@ -352,7 +358,7 @@ const NewProduct = () => {
       id: 12,
       name: "Cloud Paint Seamless Cheek Color",
       brand: "Glossier",
-      image: "../images/cloud-paint.png",
+      image: "/images/cloud-paint.png",
       rating: "★★★★★",
       ratingCount: 276,
       price: "$20.00",
@@ -367,32 +373,32 @@ const NewProduct = () => {
     {
       id: 1,
       name: "Face",
-      image: "../images/face.png"
+      image: "/images/face.png"
     },
     {
       id: 2,
       name: "Eyes",
-      image: "../images/eye.png"
+      image: "/images/eye.png"
     },
     {
       id: 3,
       name: "Lips",
-      image: "../images/lip product.png"
+      image: "../images/lips.png"  
     },
     {
       id: 4,
       name: "Body",
-      image: "../images/body.png"
+      image: "/images/body.png"
     },
     {
       id: 5,
       name: "Sets",
-      image: "../images/makeupsets.png"
+      image: "/images/makeupsets.png"
     },
     {
       id: 6,
       name: "Tools",
-      image: "../images/makeuptools.png"
+      image: "/images/makeuptools.png"
     }
   ];
 
@@ -406,27 +412,27 @@ const NewProduct = () => {
     {
       id: 2,
       name: "Chanel",
-      image: "../images/chanel logo.png"
+      image: "/images/chanellogo.png"
     },
     {
       id: 3,
       name: "Dior",
-      image: "../images/dior logo.png"
+      image: "../images/diorlogo.png"
     },
     {
       id: 4,
       name: "Glossier",
-      image: "../images/glossier logo .png"
+      image: "../images/glossierlogo.png"
     },
     {
       id: 5,
       name: "Charlotte Tilbury",
-      image: "../images/Charlotte Tilbury logo .png"
+      image: "../images/CharlotteTilburylogo.png"
     },
     {
       id: 6,
       name: "Rare Beauty",
-      image: "../images/rare beauty logo .png"
+      image: "../images/rarebeautylogo.png"
     }
   ];
 
@@ -513,8 +519,14 @@ const NewProduct = () => {
   };
 
   
-  const handleAddToCart = (productName) => {
-    alert(`${productName} added to your cart!`);
+  const handleAddToCart = (product) => {
+    const productWithNumericPrice = {
+      ...product,
+      price: product.price
+    };
+    
+    addToCart(productWithNumericPrice);
+    console.log(`${product.name} added to your cart!`);
   };
 
   
@@ -636,7 +648,7 @@ const NewProduct = () => {
                     className="add-to-cart" 
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleAddToCart(product.name);
+                      handleAddToCart(product);
                     }}
                   >
                     {translate("Add to Cart")}
@@ -771,7 +783,7 @@ const NewProduct = () => {
                   <button 
                     className="add-to-cart-detail" 
                     onClick={() => {
-                      handleAddToCart(selectedProduct.name);
+                      handleAddToCart(selectedProduct);
                       setDetailModalVisible(false);
                     }}
                   >

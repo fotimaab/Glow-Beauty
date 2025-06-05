@@ -1,19 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './SkincareProduct.css';
+import { useContext } from 'react';
+import { CartContext } from '../context/CartContext';
+import { AuthContext } from '../context/AuthContext';
 
 const SkincareProduct = () => {
+  const { addToCart } = useContext(CartContext);
+  const { language } = useContext(AuthContext);
   
-  const [language, setLanguage] = useState(localStorage.getItem('selectedLanguage') || 'en');
   const [cameraModalOpen, setCameraModalOpen] = useState(false);
-  
-  
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [detailModalVisible, setDetailModalVisible] = useState(false);
-  
+  const [wishlistItems, setWishlistItems] = useState([]);
   
   const videoRef = useRef(null);
   const streamRef = useRef(null);
-  
   
   const translations = {
     en: {
@@ -249,15 +250,11 @@ const SkincareProduct = () => {
     }
   };
   
-  
   const translate = (key) => {
     return translations[language]?.[key] || key;
   };
   
-  
   useEffect(() => {
-    localStorage.setItem('selectedLanguage', language);
-    
     document.title = language === 'en' ? 'Skincare Products | Glow Beauty' : 
                     language === 'ru' ? 'Средства для ухода за кожей | Glow Beauty' : 
                     'Teri parvarishi mahsulotlari | Glow Beauty';
@@ -306,32 +303,41 @@ const SkincareProduct = () => {
     closeCamera();
   };
   
-  // Product interaction functions
-  const addToCart = (productName) => {
-    alert(`${productName} added to your cart!`);
-  };
-  
-  const toggleWishlist = (event, productName) => {
-    event.stopPropagation(); 
-    const heartIcon = event.currentTarget.querySelector('.heart-icon');
+  // Updated add to cart function that uses the context
+  const handleAddToCart = (product) => {
+    // If product is just a name (string), find the full product object
+    let productToAdd = typeof product === 'string' 
+      ? products.find(p => p.name === product)
+      : product;
     
-    if (heartIcon.getAttribute('fill') === 'none') {
-      heartIcon.setAttribute('fill', 'var(--accent-color)');
-      heartIcon.setAttribute('stroke', 'var(--accent-color)');
-      alert(`${productName} added to your wishlist!`);
-    } else {
-      heartIcon.setAttribute('fill', 'none');
-      heartIcon.setAttribute('stroke', 'currentColor');
-      alert(`${productName} removed from your wishlist!`);
-    }
+    // Create a product object with numeric price (removing HTML tags)
+    const productWithNumericPrice = {
+      ...productToAdd,
+      price: typeof productToAdd.price === 'string' 
+        ? productToAdd.price.replace(/<[^>]*>/g, '') // Remove HTML tags
+        : productToAdd.price
+    };
+    
+    addToCart(productWithNumericPrice);
+    console.log(`${typeof product === 'string' ? product : product.name} added to your cart!`);
   };
   
+  // Updated wishlist toggle function
+  const toggleWishlist = (event, productId) => {
+    event.stopPropagation();
+    setWishlistItems(prev => {
+      if (prev.includes(productId)) {
+        return prev.filter(id => id !== productId);
+      } else {
+        return [...prev, productId];
+      }
+    });
+  };
   
   const showProductDetails = (product) => {
     setSelectedProduct(product);
     setDetailModalVisible(true);
   };
-  
   
   const showFilterOptions = () => {
     alert('Filter options would appear in a dropdown or modal in a real application.');
@@ -340,7 +346,6 @@ const SkincareProduct = () => {
   const showSortOptions = () => {
     alert('Sort options would appear in a dropdown in a real application.');
   };
-  
   
   const handlePageChange = (e) => {
     if (!e.target.classList.contains('prev') && !e.target.classList.contains('next')) {
@@ -351,7 +356,6 @@ const SkincareProduct = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
- 
   const products = [
     {
       id: 1,
@@ -360,7 +364,7 @@ const SkincareProduct = () => {
       stars: "★★★★★",
       ratingCount: "2,345",
       price: "$28.00",
-      image: "../images/vitamin c serum.png",
+      image: "/images/vitaminCserum.png",
       badge: "BESTSELLER",
       description: "A high-strength vitamin C serum that brightens skin tone, reduces signs of aging, and fights visible blemish marks. This potent formula contains 15% pure L-Ascorbic Acid, enhanced with 0.5% Ferulic Acid for stability and 1% Vitamin E for synergistic antioxidant benefits. Apply daily for a more radiant complexion and improved skin texture."
     },
@@ -392,7 +396,7 @@ const SkincareProduct = () => {
       stars: "★★★★★",
       ratingCount: "3,210",
       price: "$38.00",
-      image: "../images/ultra facial.png",
+      image: "/images/ultrafacial.png",
       description: "A 24-hour daily facial cream that provides ultra-lightweight hydration. Formulated with Glacial Glycoprotein and olive-derived Squalane, this bestselling moisturizer helps strengthen the skin barrier and prevents moisture loss throughout the day. Absorbs quickly for a soft, healthy-looking complexion in all climate conditions."
     },
     {
@@ -402,7 +406,7 @@ const SkincareProduct = () => {
       stars: "★★★★☆",
       ratingCount: "1,876",
       price: "$42.00",
-      image: "../images/soy face.png",
+      image: "/images/soyface.png",
       description: "A gentle, extra-soft gel cleanser for all skin types. This multi-tasking formula removes makeup and impurities without stripping essential moisture from the skin. Enriched with amino acid-rich soy proteins, calming cucumber extract, and balancing rosewater. The pH-balanced formula helps maintain skin's natural acidity even after cleansing."
     },
     {
@@ -412,7 +416,7 @@ const SkincareProduct = () => {
       stars: "★★★★☆",
       ratingCount: "932",
       price: "<span style=\"text-decoration: line-through; color: #999; margin-right: 5px;\">$25.00</span> $18.00",
-      image: "../images/hydrating clay mask.png",
+      image: "/images/hydratingclaymask.png",
       badge: "SALE",
       description: "A deeply moisturizing treatment mask for dry and dehydrated skin. This creamy clay-based formula combines hyaluronic acid, aloe vera, and vitamin E to restore moisture levels while purifying the skin. The unique blend of kaolin clay and glycerin draws out impurities without drying, leaving skin soft, refreshed, and plumped with hydration."
     },
@@ -423,7 +427,7 @@ const SkincareProduct = () => {
       stars: "★★★★☆",
       ratingCount: "756",
       price: "$22.00",
-      image: "../images/clarifying toner.png",
+      image: "/images/clarifyingtoner.png",
       description: "An alcohol-free toner that gently exfoliates and clarifies the skin. Formulated with a blend of glycolic and salicylic acids to remove dead skin cells and unclog pores, while chamomile and allantoin soothe and calm the skin. Use daily after cleansing to refine skin texture, minimize the appearance of pores, and prepare skin for optimal absorption of serums and moisturizers."
     },
     {
@@ -433,7 +437,7 @@ const SkincareProduct = () => {
       stars: "★★★★★",
       ratingCount: "2,543",
       price: "$32.00",
-      image: "../images/creamy eye treatment.png",
+      image: "/images/creamyeyetreatment.png",
       description: "A rich, moisturizing eye cream formulated with avocado oil. This creamy preparation gently moisturizes the delicate eye area without migrating into the eyes. Ophthalmologist and dermatologist tested, it contains avocado oil, beta-carotene, and shea butter to nourish and protect the skin barrier while providing intensive hydration for the eye area."
     },
     {
@@ -443,7 +447,7 @@ const SkincareProduct = () => {
       stars: "★★★★☆",
       ratingCount: "1,234",
       price: "$18.00",
-      image: "../images/retinal serum.png",
+      image: "/images/retinalserum.png",
       description: "A moderate-strength retinoid serum for reducing the appearance of fine lines, photo damage, and general skin aging. This formula combines 0.5% pure retinol with squalane for stability and to reduce potential irritation. For best results, use in the evening and always follow with sunscreen during daytime hours. Not recommended for sensitive skin."
     },
     {
@@ -464,7 +468,7 @@ const SkincareProduct = () => {
       stars: "★★★★☆",
       ratingCount: "3,421",
       price: "$32.00",
-      image: "../images/dramatically .png",
+      image: "/images/DramaticallyDifferentMoisturizing.png",
       description: "A dermatologist-developed face moisturizer that delivers all-day hydration. This iconic yellow moisturizer strengthens the skin's moisture barrier by 54% while providing 8-hour hydration. The lightweight, silky texture absorbs quickly and contains a blend of hyaluronic acid, glycerin, and sunflower seed cake to maintain optimal moisture balance."
     },
     {
@@ -480,7 +484,6 @@ const SkincareProduct = () => {
     }
   ];
 
-  
   const skinConcerns = [
     {
       id: 1,
@@ -530,7 +533,6 @@ const SkincareProduct = () => {
     }
   ];
 
-  
   const subcategories = [
     {
       id: 1,
@@ -545,7 +547,7 @@ const SkincareProduct = () => {
     {
       id: 3,
       name: "Serums",
-      image: "../images/serums.png"
+      image: "../images/vitaminCserum.png"
     },
     {
       id: 4,
@@ -555,7 +557,7 @@ const SkincareProduct = () => {
     {
       id: 5,
       name: "Masks",
-      image: "../images/masks.png"
+      image: "../images/hydrationmasks.png"
     },
     {
       id: 6,
@@ -564,7 +566,6 @@ const SkincareProduct = () => {
     }
   ];
 
-  
   const featuredBrands = [
     {
       id: 1,
@@ -598,7 +599,6 @@ const SkincareProduct = () => {
     }
   ];
 
-  
   const guideSteps = [
     {
       id: 1,
@@ -629,9 +629,7 @@ const SkincareProduct = () => {
 
   return (
     <>
-      
       <main>
-        
         <section className="category-hero">
           <div className="container">
             <div className="category-content">
@@ -644,7 +642,6 @@ const SkincareProduct = () => {
         </section>
 
         <div className="container">
-          
           <section className="concern-section">
             <h2 className="section-subtitle">{translate("Shop by Skin Concern")}</h2>
             <div className="concern-grid">
@@ -659,7 +656,6 @@ const SkincareProduct = () => {
             </div>
           </section>
 
-          
           <section className="subcategories">
             <h2 className="subcategory-title">{translate("Categories")}</h2>
             <div className="subcategory-grid">
@@ -672,7 +668,6 @@ const SkincareProduct = () => {
             </div>
           </section>
 
-          
           <section className="filter-section">
             <div className="filter-container">
               <button className="filter-button" onClick={showFilterOptions}>
@@ -699,7 +694,6 @@ const SkincareProduct = () => {
             </div>
           </section>
 
-          
           <section className="product-grid">
             {products.map(product => (
               <div className="product-card" key={product.id} onClick={() => showProductDetails(product)}>
@@ -722,7 +716,7 @@ const SkincareProduct = () => {
                       className="add-to-cart" 
                       onClick={(e) => {
                         e.stopPropagation();
-                        addToCart(product.name);
+                        handleAddToCart(product);
                       }}
                     >
                       {translate("Add to Cart")}
@@ -730,10 +724,15 @@ const SkincareProduct = () => {
                     <button 
                       className="wishlist-btn"
                       onClick={(e) => {
-                        toggleWishlist(e, product.name);
+                        toggleWishlist(e, product.id);
                       }}
                     >
-                      <svg className="heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <svg 
+                        className="heart-icon" 
+                        viewBox="0 0 24 24"
+                        fill={wishlistItems.includes(product.id) ? 'var(--accent-color)' : 'none'}
+                        stroke={wishlistItems.includes(product.id) ? 'var(--accent-color)' : 'currentColor'}
+                      >
                         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                       </svg>
                     </button>
@@ -743,7 +742,6 @@ const SkincareProduct = () => {
             ))}
           </section>
 
-          {/* Pagination */}
           <div className="pagination">
             <button className="page-btn prev" onClick={handlePageChange}>{translate("Prev")}</button>
             <button className="page-btn active" onClick={handlePageChange}>1</button>
@@ -754,7 +752,6 @@ const SkincareProduct = () => {
             <button className="page-btn next" onClick={handlePageChange}>{translate("Next")}</button>
           </div>
 
-          {/* Skincare Guide */}
           <section className="skincare-guide">
             <h2 className="guide-title">{translate("Your Ultimate Skincare Routine")}</h2>
             <div className="guide-content">
@@ -769,7 +766,6 @@ const SkincareProduct = () => {
           </section>
         </div>
 
-        {/* Featured Section */}
         <section className="featured-section">
           <div className="container">
             <h2 className="section-title">{translate("Featured Brands")}</h2>
@@ -840,7 +836,7 @@ const SkincareProduct = () => {
                   <button 
                     className="add-to-cart-detail" 
                     onClick={() => {
-                      addToCart(selectedProduct.name);
+                      handleAddToCart(selectedProduct);
                       setDetailModalVisible(false);
                     }}
                   >
@@ -848,9 +844,14 @@ const SkincareProduct = () => {
                   </button>
                   <button 
                     className="wishlist-btn-detail"
-                    onClick={(e) => toggleWishlist(e, selectedProduct.name)}
+                    onClick={(e) => toggleWishlist(e, selectedProduct.id)}
                   >
-                    <svg className="heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <svg 
+                      className="heart-icon" 
+                      viewBox="0 0 24 24"
+                      fill={wishlistItems.includes(selectedProduct.id) ? 'var(--accent-color)' : 'none'}
+                      stroke={wishlistItems.includes(selectedProduct.id) ? 'var(--accent-color)' : 'currentColor'}
+                    >
                       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                     </svg>
                   </button>

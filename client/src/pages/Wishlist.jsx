@@ -11,7 +11,7 @@ const Wishlist = () => {
       name: "Luminous Silk Foundation",
       brand: "Giorgio Armani",
       price: "$64.00",
-      image: "..//images/luminous.png",
+      image: "../images/luminous.png",
       stockStatus: "IN STOCK",
       stockClass: "in-stock"
     },
@@ -20,7 +20,7 @@ const Wishlist = () => {
       name: "Double Wear Stay-in-Place",
       brand: "Estée Lauder",
       price: "$46.00",
-      image: "..//images/double.png",
+      image: "../images/double.png",
       stockStatus: "LOW STOCK",
       stockClass: "low-stock"
     },
@@ -57,7 +57,7 @@ const Wishlist = () => {
       name: "Hydrating Serum",
       brand: "Glow Beauty",
       price: "$35.00",
-      image: "../images/Watermelon Glow Niacinamide Dew Dropspng.jpg",
+      image: "/images/HydratingSerum.png",
       stockStatus: "IN STOCK",
       stockClass: "in-stock"
     }
@@ -70,7 +70,7 @@ const Wishlist = () => {
       name: "Nude Eyeshadow Palette",
       brand: "Urban Decay",
       price: "$54.00",
-      image: "../images/nude eyeshadow.png",
+      image: "../images/nudeeyeshadow.png",
       added: false
     },
     {
@@ -78,7 +78,7 @@ const Wishlist = () => {
       name: "Sheer Glow Foundation",
       brand: "NARS",
       price: "$47.00",
-      image: "../images/sheer Glow.png",
+      image: "../images/sheerGlow.png",
       added: false
     },
     {

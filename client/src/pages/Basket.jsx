@@ -4,11 +4,11 @@ import './Basket.css';
 import { translations } from '../translations';
 const luminousImg = process.env.PUBLIC_URL + '/images/luminous.png';
 const bornImg = process.env.PUBLIC_URL + '/images/born.png';
-const watermelonGlowImg = process.env.PUBLIC_URL + '/images/Watermelon Glow Niacinamide Dew Dropspng.jpg';
-const macLipstickImg = process.env.PUBLIC_URL + '/images/maclipstik.png';
-const doubleWearImg = process.env.PUBLIC_URL + '/images/double wear stay.png';
-const softMatteImg = process.env.PUBLIC_URL + '/images/Soft matte component.png';
-const nudeEyeshadowImg = process.env.PUBLIC_URL + '/images/nude eyeshadow.png';
+const watermelonGlowImg = process.env.PUBLIC_URL + '/images/HydratingSerum.png';
+const macLipstickImg = process.env.PUBLIC_URL + '../images/maclipstik.png';
+const doubleWearImg = process.env.PUBLIC_URL + '../images/doublewearstay.png';
+const softMatteImg = process.env.PUBLIC_URL + '../images/Softmattecomponent.png';
+const nudeEyeshadowImg = process.env.PUBLIC_URL + '/images/nudeeyeshadow.png';
 const sheerImg = process.env.PUBLIC_URL + '/images/sheer.png';
 
 

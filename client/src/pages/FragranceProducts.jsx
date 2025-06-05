@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './FragranceProducts.css';
-
+import { useContext } from 'react';
+import { CartContext } from '../context/CartContext';
 
 const fragranceHeroBgImg = process.env.PUBLIC_URL + '/images/fragrance-hero-bg.jpg';
 
@@ -14,6 +15,7 @@ const FragranceProducts = () => {
   const [showProcessingMessage, setShowProcessingMessage] = useState(false);
   const [wishlistItems, setWishlistItems] = useState({});
   const [activePage, setActivePage] = useState(1);
+  const { addToCart } = useContext(CartContext);
   
  
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -34,27 +36,27 @@ const FragranceProducts = () => {
  
   const fragranceTypes = [
     { id: 1, name: "Perfume", image: "/images/perfume.png" },
-    { id: 2, name: "Eau de Parfum", image: "/images/eau de parfum.png" },
-    { id: 3, name: "Eau de Toilette", image: "/images/eau de toilette.png" },
+    { id: 2, name: "Eau de Parfum", image: "/images/eaudeparfum.png" },
+    { id: 3, name: "Eau de Toilette", image: "/images/eaudetoilette.png" },
     { id: 4, name: "Cologne", image: "/images/cologne.png" },
     { id: 5, name: "Body Mist", image: "/images/bodymist.png" },
-    { id: 6, name: "Travel Size", image: "/images/travek size.png" }
+    { id: 6, name: "Travel Size", image: "/images/traveksize.png" }
   ];
   
  
   const featuredBrands = [
-    { id: 1, name: "Chanel", logo: "/images/chanel logo.png" },
-    { id: 2, name: "Dior", logo: "/images/dior logo.png" },
-    { id: 3, name: "Gucci", logo: "/images/gucci logo.png" },
-    { id: 4, name: "Yves Saint Laurent", logo: "/images/ysl logo.png" },
-    { id: 5, name: "Giorgio Armani", logo: "/images/armani logo.png" },
-    { id: 6, name: "Tom Ford", logo: "/images/tomford logo.png" },
-    { id: 7, name: "Jo Malone", logo: "/images/jomalone logo.png" },
-    { id: 8, name: "Versace", logo: "/images/versace logo.png" },
-    { id: 9, name: "Dolce & Gabbana", logo: "/images/dg logo.png" },
-    { id: 10, name: "Lancôme", logo: "/images/lancome logo.png" },
-    { id: 11, name: "Burberry", logo: "/images/burberry logo.png" },
-    { id: 12, name: "Paco Rabanne", logo: "/images/paco logo.png" }
+    { id: 1, name: "Chanel", logo: "/images/chanellogo.png" },
+    { id: 2, name: "Dior", logo: "/images/diorlogo.png" },
+    { id: 3, name: "Gucci", logo: "../images/guccilogo.png" },
+    { id: 4, name: "Yves Saint Laurent", logo: "/images/ysllogo.png" },
+    { id: 5, name: "Giorgio Armani", logo: "/images/armanilogo.png" },
+    { id: 6, name: "Tom Ford", logo: "/images/tomfordlogo.png" },
+    { id: 7, name: "Jo Malone", logo: "/images/jomalonelogo.png" },
+    { id: 8, name: "Versace", logo: "/images/versacelogo.png" },
+    { id: 9, name: "Dolce & Gabbana", logo: "/images/dglogo.png" },
+    { id: 10, name: "Lancôme", logo: "/images/lancomelogo.png" },
+    { id: 11, name: "Burberry", logo: "/images/burberrylogo.png" },
+    { id: 12, name: "Paco Rabanne", logo: "/images/pacologo.png" }
   ];
 
   
@@ -66,7 +68,7 @@ const FragranceProducts = () => {
       rating: "★★★★★",
       ratingCount: "2,345",
       price: "$135.00",
-      image: "/images/Bloom Eau de Parfum.png",
+      image: "/images/BloomEaudeParfum.png",
       badge: "BESTSELLER",
       description: "A rich floral scent featuring Rangoon Creeper, jasmine bud, and tuberose for a modern, elegant white floral fragrance. Created by master perfumer Alberto Morillas under Alessandro Michele's creative direction, it embodies authenticity and vitality in a natural white floral scent."
     },
@@ -77,7 +79,7 @@ const FragranceProducts = () => {
       rating: "★★★★★",
       ratingCount: "3,129",
       price: "$108.00",
-      image: "../images/La Vie Est Belle.png",
+      image: "/images/LaVieEstBelle.png",
       description: "An irresistible fragrance that captures the essence of happiness with a heart of the most exquisite flowers, gourmand notes, and patchouli. This feminine perfume is a sweet iris gourmand scent with iris, jasmine, orange blossom, patchouli, vanilla, and praline."
     },
     {
@@ -87,7 +89,7 @@ const FragranceProducts = () => {
       rating: "★★★★★",
       ratingCount: "4,521",
       price: "$95.00",
-      image: "../images/acqua di gio.png",
+      image: "/images/acquadigio.png",
       description: "Inspired by the Mediterranean sea, this iconic men's fragrance captures the fresh, aquatic essence with a blend of marine notes, bergamot, neroli, and patchouli. Perfect for the modern man who embraces both strength and elegance."
     },
     {
@@ -97,7 +99,7 @@ const FragranceProducts = () => {
       rating: "★★★★★",
       ratingCount: "3,756",
       price: "$140.00",
-      image: "../images/J'adore.png",
+      image: "/images/J'adore.png",
       description: "A modern floral bouquet that celebrates the renaissance of extreme femininity and the powerfulness of delicate flowers. Essence of ylang-ylang with floral notes of Damascus Rose and Jasmine create this iconic women's perfume."
     },
     {
@@ -107,7 +109,7 @@ const FragranceProducts = () => {
       rating: "★★★★★",
       ratingCount: "2,984",
       price: "$124.00",
-      image: "../images/Black opium .png",
+      image: "/images/Blackopium.png",
       badge: "NEW",
       description: "An addictive women's fragrance with notes of black coffee, white flowers, and vanilla. This seductively intoxicating scent combines the energy of coffee with a sensual floral heart for a modern, young, and vibrant signature fragrance."
     },
@@ -118,7 +120,7 @@ const FragranceProducts = () => {
       rating: "★★★★★",
       ratingCount: "3,124",
       price: "$150.00",
-      image: "../images/Bleu de Chanel.png",
+      image: "../images/BleudeChanel.png",
       description: "A woody aromatic fragrance for the man who defies convention. An unexpected composition with striking notes of citrus, vetiver, and warm spices. Fresh, clean, and profoundly sensual with an aromatic woody accord that reveals the essence of determination."
     },
     {
@@ -128,7 +130,7 @@ const FragranceProducts = () => {
       rating: "★★★★★",
       ratingCount: "4,105",
       price: "$142.00",
-      image: "../images/Coco Mademoiselle.png",
+      image: "/images/CocoMademoiselle.png",
       description: "An oriental fragrance with a strong personality, yet surprisingly fresh. The modern, feminine scent features fresh and vibrant orange, jasmine and rose notes on a warm, sensual base of patchouli and vetiver. Irresistibly sensual and elegant."
     },
     {
@@ -148,7 +150,7 @@ const FragranceProducts = () => {
       rating: "★★★★☆",
       ratingCount: "2,541",
       price: "$88.00",
-      image: "../images/Light Blue.png",
+      image: "/images/lightblueeay.png",
       description: "A refreshing summer fragrance that evokes the spirit of the Mediterranean. With notes of Sicilian cedar, apple, and bluebell, this vibrant perfume captures the sensuality of a southern Italian summer. Perfect for warm weather and casual wear."
     },
     {
@@ -158,7 +160,7 @@ const FragranceProducts = () => {
       rating: "★★★★☆",
       ratingCount: "1,756",
       price: "$126.00",
-      image: "../images/Mon Paris.png",
+      image: "/images/MonParis.png",
       description: "A sweet, floral fragrance that's inspired by the city of love. This dizzying scent features notes of red berries, datura flower, and patchouli for a modern take on a classic chypre perfume. Intensely passionate and romantic."
     },
     {
@@ -179,7 +181,7 @@ const FragranceProducts = () => {
       rating: "★★★★★",
       ratingCount: "1,887",
       price: "$155.00",
-      image: "../images/Wood Sage.png",
+      image: "/images/WoodSage.png",
       description: "An earthy, fresh cologne that captures the spirit of the windswept coast. The combination of ambrette seeds, sea salt, and sage creates a unique, natural aroma reminiscent of driftwood and salty sea air. Perfect for everyday wear."
     },
     {
@@ -189,7 +191,7 @@ const FragranceProducts = () => {
       rating: "★★★★☆",
       ratingCount: "1,245",
       price: "$94.00",
-      image: "../images/The Only One.png",
+      image: "/images/TheOnlyOne.png",
       description: "A captivating women's fragrance that combines feminine violet with coffee for a unique sensory experience. The warm, vibrant scent features top notes of violet and bergamot, a heart of coffee and iris, and a base of vanilla and patchouli."
     },
     {
@@ -199,7 +201,7 @@ const FragranceProducts = () => {
       rating: "★★★★★",
       ratingCount: "3,678",
       price: "$115.00",
-      image: "../images/Flowerbomb.png",
+      image: "/images/Flowerbomb.png",
       description: "An explosive floral bouquet with notes of jasmine, orange blossom, and patchouli. This iconic fragrance transforms the negative into the positive, creating an addictive, floral explosion that leaves a sensual and unforgettable trail."
     },
     {
@@ -209,7 +211,7 @@ const FragranceProducts = () => {
       rating: "★★★★☆",
       ratingCount: "1,543",
       price: "$100.00",
-      image: "../images/Y Eau de Parfum.png",
+      image: "/images/YEaudeParfum.png",
       description: "A bold and modern masculine fragrance that embodies the dual personality of the modern man. Fresh bergamot and ginger meet with warm sage and balsam fir over a sophisticated woody base. Intense, sensual, and long-lasting."
     },
     {
@@ -219,7 +221,7 @@ const FragranceProducts = () => {
       rating: "★★★★☆",
       ratingCount: "2,123",
       price: "$76.00",
-      image: "../images/Bright Crystal.png",
+      image: "/images/BrightCrystal.png",
       badge: "SALE",
       sale_price: "$62.00",
       description: "A fresh, sensual blend of refreshing chilled yuzu and pomegranate mingled with floral notes of peony, magnolia, and lotus flower. The fragrance is built on a base of musk and amber that adds warmth to this delicately sexy summer scent."
@@ -231,7 +233,7 @@ const FragranceProducts = () => {
       rating: "★★★★★",
       ratingCount: "2,940",
       price: "$138.00",
-      image: "../images/Miss Dior.png",
+      image: "/images/MissDior.png",
       description: "A charmingly feminine floral fragrance with a chypre accord. The vibrant, elegant perfume features Centifolia Rose and fresh notes of Lily-of-the-Valley, tied together with a light base of patchouli. The essence of a woman in love."
     },
     {
@@ -241,7 +243,7 @@ const FragranceProducts = () => {
       rating: "★★★★☆",
       ratingCount: "3,210",
       price: "$92.00",
-      image: "../images/1",
+      image: "/images/1Million.png",
       description: "A daring, sensual men's fragrance that combines fresh grapefruit, red orange, mint, and rose with warm cinnamon, spices, leather, and woody notes. Bold and assertive, this scent embodies luxury and makes a seductive statement."
     }
   ];
@@ -652,8 +654,13 @@ const FragranceProducts = () => {
   };
 
   
-  const handleAddToCart = (productName) => {
-    alert(`${productName} added to your cart!`);
+  const handleAddToCart = (product) => {
+    const productWithNumericPrice = {
+      ...product,
+      price: product.price
+    };
+    
+    addToCart(productWithNumericPrice);
   };
 
   

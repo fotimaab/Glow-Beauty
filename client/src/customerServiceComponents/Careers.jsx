@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Careers.css';
 
-import careersBgImage from '../images/user avatar.jpg';
+import careersBgImage from '../images/useravatar.jpg';
 
 // SVG Icon Components
 const CameraIcon = () => (

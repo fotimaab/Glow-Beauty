@@ -16,6 +16,8 @@ import AboutUs from './customerServiceComponents/AboutUs';
 import Resources from './customerServiceComponents/Resources';
 import Account from './accounts/Account';
 import './App.css';
+import { CartProvider } from './context/CartContext';
+
 // import { AuthProvider } from './context/AuthContext';
 
 // Pages
@@ -51,6 +53,7 @@ function App() {
   
   return (
     <AuthProvider>
+      <CartProvider>
        <Router>
     <div className="App">
       <Header onOpenCameraModal={handleOpenCameraModal} />
@@ -96,6 +99,7 @@ function App() {
       <Footer />
     </div>
   </Router>
+  </CartProvider>
     </AuthProvider>
    
   );
